@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [Tooltip("How much force the player jumps with.")]
     [SerializeField] float jumpForce;
 
+    [SerializeField] Animator animator;
+
     // Toggles on and off depending on if the player is close enough to a door to interact with it.
     bool isNearDoor = false;
 
@@ -23,12 +25,29 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = rb.GetComponent<Animator>();
     }
 
     void Update()
     {
         float movement = Input.GetAxis("Horizontal");
         transform.Translate(new Vector2(movement * Time.deltaTime * playerSpeed, 0));
+
+        if (movement == 0)
+        {
+            animator.SetBool("idle", true);
+        }
+        if (movement > 0)
+        {
+            animator.SetBool("idle", false);
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        if (movement < 0)
+        {
+            animator.SetBool("idle", false);
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

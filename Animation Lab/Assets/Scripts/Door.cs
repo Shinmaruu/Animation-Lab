@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -7,7 +8,7 @@ public class Door : MonoBehaviour
     // Fields
 
     // References
-
+    [SerializeField] Animator animator;
 
     void Start()
     {
@@ -21,7 +22,13 @@ public class Door : MonoBehaviour
 
     public void ToggleOpenDoor()
     {
-        Debug.Log("Toggling door open/closed!");
-        // TODO: This is where the door will play its open and close animation.
+        if (animator.GetBool("DoorToggle"))
+        {
+            animator.SetBool("DoorToggle", false);
+        }
+        else
+        {
+            animator.SetBool("DoorToggle", true);
+        }
     }
 }
